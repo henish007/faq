@@ -1,0 +1,100 @@
+<style>
+  .main_acc .accordion-container .accordion-title {
+    position: relative;
+    margin: 0;
+    padding: 0.625em 0.625em 0.625em 2em;
+    background-color: #000;
+    font-size: 1.25em;
+    font-weight: normal;
+    color: #fff;
+    cursor: pointer;
+  }
+  .main_acc {
+      margin: 50px 0;
+  }
+  .main_acc .accordion-container .accordion-title:hover,
+  .main_acc .accordion-container .accordion-title:active,
+  .main_acc .accordion-title.open {
+    background-color: #f4b508;
+  }
+  .main_acc .accordion-container .accordion-title::after {
+    content: "";
+    position: absolute;
+    top: 25px;
+    right: 25px;
+    width: 0;
+    height: 0;
+    border: 8px solid transparent;
+    border-top-color: #fff;
+  }
+  .main_acc .accordion-container .accordion-title.open::after {
+    content: "";
+    position: absolute;
+    top: 15px;
+    border: 8px solid transparent;
+    border-bottom-color: #fff;
+  }
+
+  /*CSS for CodePen*/
+
+  .main_acc .accordion-content {
+      padding: 1em 2em;
+      background-color: #fafafa;
+  }
+  .main_acc .accordion-content p, .main_acc .accordion-content li {
+      margin: 0;
+  }
+</style>
+<div class="main_acc page-width page-width-desktop">
+  <div id="accordion" class="accordion-container">
+    {%- for block in section.blocks -%}
+      <h4 class="accordion-title js-accordion-title">{{ block.settings.acc_title }}</h4>
+      <div class="accordion-content">
+        <p>{{ block.settings.acc_dis }}</p>
+      </div>
+    {%- endfor -%}
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+    $(".accordion-content:not(:first-of-type)").css("display", "none");
+    $(".js-accordion-title:first-of-type").addClass("open");
+
+    $(".js-accordion-title").click(function () {
+      $(".open").not(this).removeClass("open").next().slideUp(300);
+      $(this).toggleClass("open").next().slideToggle(300);
+    });
+  });
+</script>
+{% schema %}
+{
+   "name": "Section name",
+   "settings": [],
+   "blocks": [
+      {
+        "type": "slide",
+        "name": "Slide",
+        "settings": [
+          {
+            "type": "text",
+            "id": "acc_title",
+            "label": "Heading Text",
+            "default" : "Lorem ipsum"
+          },
+          {
+            "type": "liquid",
+            "id": "acc_dis",
+            "label": "Pargraph Text",
+            "default" : "Lorem ipsum dolor sit amet, consectetur adipisicing elit"
+          }
+        ]
+      }
+    ],
+    "presets" : [
+      {
+        "name" : "Faq section"
+      }
+  ]
+}
+{% endschema %}
